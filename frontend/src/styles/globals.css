@@ -40,12 +40,74 @@ html {
   animation: bounce 2s infinite;
 }
 
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+
 @keyframes bounce {
   0%, 100% {
     transform: translateY(0);
   }
   50% {
     transform: translateY(-5px);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus visible styles for better keyboard navigation */
+:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
+/* Improved form input styling */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: -1px;
+}
+
+/* Loading state indicator */
+.loading-spinner::after {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -62,3 +124,54 @@ html {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* Utility Classes */
+.h-screen-minus-200 {
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+/* CodeMirror-like scroller for code containers */
+.cm-scroller {
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 #111827;
+}
+
+.cm-scroller::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.cm-scroller::-webkit-scrollbar-track {
+  background: #111827;
+  border-radius: 8px;
+}
+
+.cm-scroller::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366f1, #8b5cf6);
+  border-radius: 8px;
+  border: 2px solid #111827;
+}
+
+.cm-scroller::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #818cf8, #a78bfa);
+}
+
+/* Syntax highlighting (atom-one-dark inspired) */
+.hljs {
+  color: #abb2bf;
+  background: transparent;
+}
+.hljs-comment { color: #5c6370; font-style: italic; }
+.hljs-keyword { color: #c678dd; }
+.hljs-built_in { color: #e06c75; }
+.hljs-string { color: #98c379; }
+.hljs-number { color: #d19a66; }
+.hljs-function { color: #61afef; }
+.hljs-title { color: #61afef; }
+.hljs-params { color: #abb2bf; }
+.hljs-variable { color: #e06c75; }
+.hljs-literal { color: #56b6c2; }
+.hljs-meta { color: #61afef; }
+.hljs-regexp { color: #98c379; }
+
