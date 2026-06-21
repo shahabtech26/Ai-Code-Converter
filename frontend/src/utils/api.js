@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// In production (Netlify): empty string = same origin, redirects handle routing to functions
+// In dev: use VITE_API_URL env var, or default to localhost:3001 (Express backend)
+const BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3001');
 const TOKEN_KEY = 'codealchemy_token';
 
 // ─── Axios instance ────────────────────────────────────────────────────────────

@@ -11,7 +11,8 @@ const cors = require('cors');
 const path = require('path');
 
 const authRoutes = require('./routes/auth');
-const convertRoutes = require('./routes/convert');
+const { router: convertRoutes } = require('./routes/convert');
+const pluginRoutes = require('./routes/plugin');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -40,6 +41,15 @@ app.use((req, _res, next) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api', convertRoutes);
+app.use('/plugin', pluginRoutes);
+
+app.get('/.well-known/ai-plugin.json', (req, res) => {
+  res.sendFile(path.join(__dirname, '.well-known', 'ai-plugin.json'));
+});
+
+app.get('/openapi.yaml', (req, res) => {
+  res.sendFile(path.join(__dirname, 'openapi.yaml'));
+});
 
 // ─── Health check ─────────────────────────────────────────────────────────────
 

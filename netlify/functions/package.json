@@ -1,0 +1,10 @@
+{
+  "name": "codealchemy-netlify-functions",
+  "version": "1.0.0",
+  "description": "Serverless functions for CodeAlchemy on Netlify",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "openai": "^4.20.0"
+  }
+}

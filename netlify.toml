@@ -1,4 +1,36 @@
 [build]
-  base = "frontend"
-  command = "npm run build"
-  publish = "dist"
+  command = "cd frontend && npm install && npm run build"
+  publish = "frontend/dist"
+  functions = "netlify/functions"
+
+# ─── Redirects: /api/* → Netlify Functions ────────────────────────────────────
+
+# Auth routes
+[[redirects]]
+  from = "/api/auth/*"
+  to = "/.netlify/functions/auth/:splat"
+  status = 200
+
+# Convert route
+[[redirects]]
+  from = "/api/convert"
+  to = "/.netlify/functions/convert"
+  status = 200
+
+# Bugs route
+[[redirects]]
+  from = "/api/bugs"
+  to = "/.netlify/functions/bugs"
+  status = 200
+
+# Health check
+[[redirects]]
+  from = "/api/health"
+  to = "/.netlify/functions/health"
+  status = 200
+
+# SPA fallback — React handles all other routes
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+netlify/functions/node_modules/
+
+# Environment
+.env
+backend/.env
+
+# Build output
+frontend/dist/
+
+# Data
+backend/data/users.json
+
+# IDE / OS
+.vercel
+.DS_Store
+Thumbs.db

@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Paperclip, Loader2, CheckCircle } from 'lucide-react';
+import { Paperclip, Loader2, CheckCircle, Moon, Sun } from 'lucide-react';
 import { convertAPI } from '../utils/api';
 import CodeBlock from './CodeBlock';
 
-export default function ChatSection({ userName = 'User', onLogout }) {
+export default function ChatSection({ userName = 'User', onLogout, theme = 'dark', onToggleTheme }) {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [uploadedCode, setUploadedCode] = useState('');
@@ -339,7 +339,11 @@ export default function ChatSection({ userName = 'User', onLogout }) {
   // ─── Render ───────────────────────────────────────────────────────────────────
 
   return (
-    <div className="h-full rounded-xl border border-slate-700 bg-slate-800 p-5 flex flex-col shadow-2xl relative overflow-hidden">
+    <div className={`h-full rounded-xl border p-5 flex flex-col shadow-2xl relative overflow-hidden ${
+      theme === 'dark'
+        ? 'border-slate-700 bg-slate-800 text-slate-100'
+        : 'border-slate-300 bg-white/90 text-slate-900'
+    }`}>
       {/* Top gradient accent */}
       <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-indigo-500 to-purple-500" />
 
@@ -352,9 +356,33 @@ export default function ChatSection({ userName = 'User', onLogout }) {
       )}
 
       {/* Header */}
-      <div className="mb-3 pt-2 flex items-center justify-between">
-        <h2 className="text-[clamp(1.5rem,3vw,2.25rem)] font-medium tracking-tight text-white">CodeAlchemy</h2>
-        <div className="relative" ref={profileMenuRef}>
+      <div className="mb-3 pt-2 flex items-center justify-between gap-3">
+        <h2 className={`text-[clamp(1.5rem,3vw,2.25rem)] font-medium tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+          CodeAlchemy
+        </h2>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              if (typeof onToggleTheme === 'function') {
+                onToggleTheme();
+              } else {
+                const current = document.documentElement.dataset.theme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.dataset.theme = next;
+                try { localStorage.setItem('codealchemy_theme', next); } catch (e) {}
+              }
+            }}
+            className={`inline-flex h-11 items-center justify-center rounded-full px-3 text-sm font-semibold transition shadow-lg ${
+              theme === 'dark'
+                ? 'bg-slate-700 text-slate-100 hover:bg-slate-600'
+                : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
+            }`}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+          <div className="relative" ref={profileMenuRef}>
           <button
             type="button"
             onClick={() => setIsProfileMenuOpen((p) => !p)}
@@ -380,6 +408,7 @@ export default function ChatSection({ userName = 'User', onLogout }) {
               </button>
             </div>
           )}
+        </div>
         </div>
       </div>
 

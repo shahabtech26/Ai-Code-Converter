@@ -1,0 +1,114 @@
+openapi: 3.0.1
+info:
+  title: CodeAlchemy Claude Plugin API
+  description: Claude plugin API for code conversion and bug detection.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001
+paths:
+  /plugin/convert:
+    post:
+      summary: Convert source code between languages
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: Source code to convert.
+                sourceLanguage:
+                  type: string
+                  description: Source language name.
+                targetLanguage:
+                  type: string
+                  description: Target language name.
+              required:
+                - code
+                - sourceLanguage
+                - targetLanguage
+      responses:
+        '200':
+          description: Code converted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  convertedCode:
+                    type: string
+                  targetLanguage:
+                    type: string
+                  engine:
+                    type: string
+        '400':
+          description: Missing or invalid input.
+        '500':
+          description: Conversion failed.
+  /plugin/bugs:
+    post:
+      summary: Analyze code for bugs and security issues
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: Source code to analyze.
+                language:
+                  type: string
+                  description: Optional language hint for bug detection.
+              required:
+                - code
+      responses:
+        '200':
+          description: Bug analysis result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bugs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        severity:
+                          type: string
+                        type:
+                          type: string
+                        line:
+                          type: integer
+                          nullable: true
+                        description:
+                          type: string
+                        fix:
+                          type: string
+        '400':
+          description: Missing or invalid input.
+        '500':
+          description: Analysis failed.
+  /api/health:
+    get:
+      summary: Check backend health and OpenAI integration status
+      responses:
+        '200':
+          description: Service health information returned.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  timestamp:
+                    type: string
+                  engine:
+                    type: string
+                  openaiConfigured:
+                    type: boolean
